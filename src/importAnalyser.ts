@@ -4,7 +4,7 @@ interface ImportCheckResult{
     wrong_contracts: string[];
 }
 
-function checkImports(transaction : string){
+function checkImports(transaction : string): ImportCheckResult{
     const result : ImportCheckResult = {
         wrong_contracts: []
     };
@@ -21,8 +21,7 @@ function checkImports(transaction : string){
         }
     }
 
-    console.log(result);
-
+    return result;
 }
 
 export default {checkImports};
