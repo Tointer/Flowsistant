@@ -36,8 +36,11 @@ async function promtTxAnalyse(transaction : string){
     console.log(`token count: ${encoder.encode(finalInput).length}`)
     //console.log(finalInput);
 
-    const res = await api.sendMessage(finalInput)
-    console.log(res.text)
+    //const result = (await api.sendMessage(finalInput)).text
+    const result = "Mock GPT-3 response";
+
+    return result;
+
 }
 
 export default {promtTxAnalyse};
