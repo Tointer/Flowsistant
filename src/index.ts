@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
-import txForge from './transactionForge.js';
-import importAnalyser from './importAnalyser.js';
 import * as fcl from "@onflow/fcl";
+import txAnalyser from './txAnalyser.js';
+import txForge from './txForge.js';
 
 fcl.config({
   "accessNode.api": "https://rest-mainnet.onflow.org",
@@ -10,6 +10,11 @@ fcl.config({
 
 dotenv.config();
 
+//const tx = txForge.fiatTransfer(mainnet.FungibleToken, mainnet.FiatToken, 2000, '0xdd765a6bf207c051')
+const tx = txForge.buyTopshotMoment(`0xf919ee77447b7497`, '0xdd765a6bf207c051')
+
+const result = await txAnalyser.txAnalyse(tx);
+console.log(result);
 
 
 // await fcl.query({
@@ -24,9 +29,3 @@ dotenv.config();
 // });
 
 
-
-//const tx = txForge.fiatTransfer(mainnet.FungibleToken, mainnet.FiatToken, 2000, '0xdd765a6bf207c051')
-const tx = txForge.buyTopshotMoment(`0xf919ee77447b7497`, '0xdd765a6bf207c051')
-importAnalyser.checkImports(tx);
-
-//promter.promtTxAnalyse(tx);
