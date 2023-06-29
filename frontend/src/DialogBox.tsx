@@ -10,7 +10,11 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import Typography from '@mui/joy/Typography';
 
 
-function DialogBox() {
+function DialogBox(props: {
+    message: string, 
+    status: "alert" | "warning" | "ok" | "error"
+}) 
+{
   return (
     <Card
       size="lg"
@@ -37,17 +41,16 @@ function DialogBox() {
         }}
       >
         <AspectRatio ratio="1" objectFit="contain" variant="plain">
-          <img alt="" src={calm}/>
+          <img alt="" src={getPictureFromStatus(props.status)}/>
         </AspectRatio>
       </CardOverflow>
       <CardContent sx={{ gap: 1.5, minWidth: 200 }}>
         <CardContent>
           <Typography level="h2" fontSize="xl">
-            Need Some Help?
+            {getTitleFromStatus(props.status)}
           </Typography>
           <Typography fontSize="sm" sx={{ mt: 0.5 }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor.
+            {props.message}
           </Typography>
         </CardContent>
       </CardContent>
@@ -55,5 +58,30 @@ function DialogBox() {
   )
 }
 
+function getPictureFromStatus(status: "alert" | "warning" | "ok" | "error"){
+    switch(status){
+        case "alert":
+            return alarmedState
+        case "warning":
+            return concernedState
+        case "ok":
+            return calm
+        case "error":
+            return calm
+    }
+}
+
+function getTitleFromStatus(status: "alert" | "warning" | "ok" | "error"){
+    switch(status){
+        case "alert":
+            return "Scam alert!"
+        case "warning":
+            return "Are you sure?"
+        case "ok":
+            return "Hello there!"
+        case "error":
+            return "Something went wrong, try again!"
+    }
+}
 
 export default DialogBox
