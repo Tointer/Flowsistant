@@ -1,25 +1,41 @@
 import { useState } from 'react'
-import Textarea from '@mui/joy/Textarea';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import DialogBox from './DialogBox';
+import Button from '@mui/joy/Button';
+import useSWR from 'swr'
 
-function AskForm() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <div className='flex flex-col items-center gap-4'>
-    <CodeMirror
-        className="text-left"
-        value={codeExample}
-        theme='dark'
-        lang="javascript"
-        extensions={[javascript({ jsx: true })]}
-    />
-    <DialogBox/>
+function AskForm(props: {}) {
+    const fetcher = (tx: string) => fetch(tx).then(res => res.json())
+    //const { data, error } = useSWR('/api/user', fetcher)
+    const [resultPresented, setResultPresented] = useState(false)
     
-    </div>
-  )
+
+    function onAsk(){
+        setResultPresented(true);
+    }
+
+    function onCodeChange(value: string) {
+        setResultPresented(false);
+    }
+
+    return (
+        <div className='flex flex-col items-center gap-4'>
+        <CodeMirror
+            className="text-left"
+            value={codeExample}
+            theme='dark'
+            lang="javascript"
+            extensions={[javascript({ jsx: true })]}
+            onChange={onCodeChange}
+        />
+        {resultPresented ? 
+        <DialogBox message="Lmao" status="ok" /> : 
+        <Button onClick={onAsk}>Ask</Button>}
+        
+        </div>
+    )
 }
 
 const codeExample = `
