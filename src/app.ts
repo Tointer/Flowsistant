@@ -18,8 +18,8 @@ const app = express();
 app.use(express.static(`${path.resolve()}/frontend-build`));
 
 //api
-app.get("/api", (req, res) => {
-  return res.json({ message: "this is api path" })
+app.get("/api/tx-ask", (req, res) => {
+  return res.json({ answer: "Lmao", status: "ok" })
 });
 
 // other path
