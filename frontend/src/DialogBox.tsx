@@ -3,7 +3,6 @@ import alarmedState from './assets/alarmed.png'
 import concernedState from './assets/concerned.png'
 import calm from './assets/calm.png'
 import AspectRatio from '@mui/joy/AspectRatio';
-import Button from '@mui/joy/Button';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';

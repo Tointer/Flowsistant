@@ -3,17 +3,22 @@ import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import DialogBox from './DialogBox';
 import Button from '@mui/joy/Button';
-import useSWR from 'swr'
 
 
 function AskForm(props: {}) {
-    const fetcher = (tx: string) => fetch(tx).then(res => res.json())
-    //const { data, error } = useSWR('/api/user', fetcher)
     const [resultPresented, setResultPresented] = useState(false)
-    
+    const [waitingResult, setWaitingResult] = useState(false)
 
     function onAsk(){
-        setResultPresented(true);
+        setWaitingResult(true);
+        fetch('/api/tx-ask')
+            .then( r => r.json())
+            .then( data => {
+                console.log(data);
+                setResultPresented(true);
+                setWaitingResult(false);
+            })
+
     }
 
     function onCodeChange(value: string) {
@@ -23,7 +28,9 @@ function AskForm(props: {}) {
     return (
         <div className='flex flex-col items-center gap-4'>
         <CodeMirror
-            className="text-left"
+            className="text-left min-w-100"
+            minWidth='500px'
+            minHeight='100px'
             value={codeExample}
             theme='dark'
             lang="javascript"
@@ -31,8 +38,10 @@ function AskForm(props: {}) {
             onChange={onCodeChange}
         />
         {resultPresented ? 
-        <DialogBox message="Lmao" status="ok" /> : 
-        <Button onClick={onAsk}>Ask</Button>}
+            <DialogBox message="Lmao" status="ok" /> 
+            : 
+            <Button onClick={onAsk} loading={waitingResult}>Ask</Button>
+        }
         
         </div>
     )
