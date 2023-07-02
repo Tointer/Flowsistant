@@ -4,6 +4,7 @@ import txAnalyser from './txAnalyser.js';
 import txForge from './txForge.js';
 import express from 'express';
 import path from 'path';
+import morgan from 'morgan';
 
 fcl.config({
   "accessNode.api": "https://rest-mainnet.onflow.org",
@@ -17,9 +18,22 @@ const app = express();
 //frontend
 app.use(express.static(`${path.resolve()}/frontend-build`));
 
-//api
-app.get("/api/tx-ask", (req, res) => {
-  return res.json({ answer: "Lmao", status: "ok" })
+//json
+app.use(express.json());
+
+//logger
+app.use(morgan('tiny'));
+
+//tx-ask api
+app.post("/api/tx-ask", (req, res) => {
+  const { tx } = req.body;
+  if (!tx) return res.json({ answer: "No tx", status: "error" })
+  
+  txAnalyser.txAnalyse(tx).then((answer) => {
+    return res.json({ answer, status: "ok" })
+  }).catch((err) => {
+    return res.json({ answer: err, status: "error" })
+  })
 });
 
 // other path
@@ -28,7 +42,7 @@ app.use("/", (req, res) => {
 });
 
 app.listen("3333", () => {
-  console.log("running on 3333")
+  console.log("running on http://localhost:3333/")
 })
 
 //const tx = txForge.fiatTransfer(mainnet.FungibleToken, mainnet.FiatToken, 2000, '0xdd765a6bf207c051')
