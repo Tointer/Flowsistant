@@ -8,21 +8,31 @@ import Button from '@mui/joy/Button';
 function AskForm(props: {}) {
     const [resultPresented, setResultPresented] = useState(false)
     const [waitingResult, setWaitingResult] = useState(false)
+    const [inputContent, setInputContent] = useState("")
+    const [helperMessage, setHelperMessage] = useState("")
 
     function onAsk(){
         setWaitingResult(true);
-        fetch('/api/tx-ask')
-            .then( r => r.json())
-            .then( data => {
-                console.log(data);
+        fetch('/api/tx-ask', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ tx: inputContent })
+        }).then(data => {
+            data.json().then(response => {
+                console.log(response);
+                setHelperMessage(response.answer)
                 setResultPresented(true);
                 setWaitingResult(false);
-            })
+            });
+        })
 
     }
 
     function onCodeChange(value: string) {
         setResultPresented(false);
+        setInputContent(value);
     }
 
     return (
@@ -38,7 +48,7 @@ function AskForm(props: {}) {
             onChange={onCodeChange}
         />
         {resultPresented ? 
-            <DialogBox message="Lmao" status="ok" /> 
+            <DialogBox message={helperMessage} status="ok" /> 
             : 
             <Button onClick={onAsk} loading={waitingResult}>Ask</Button>
         }
