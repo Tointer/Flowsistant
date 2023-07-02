@@ -1,6 +1,5 @@
 import { ChatGPTAPI } from 'chatgpt'
-import * as dotenv from 'dotenv';
-import {encoding_for_model } from "tiktoken";
+import {getEncoding} from "js-tiktoken";
 
 
 async function promtTxAnalyse(transaction : string){
@@ -9,7 +8,7 @@ async function promtTxAnalyse(transaction : string){
         throw new Error('OPENAI_API_KEY is not defined')
     }
     
-    const encoder = encoding_for_model("gpt-3.5-turbo");
+    const encoder = getEncoding("gpt2");
     
     const api = new ChatGPTAPI({
         apiKey: process.env.OPENAI_API_KEY as string,

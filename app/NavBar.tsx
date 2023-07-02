@@ -1,11 +1,10 @@
+"use client"
+
 import * as React from 'react';
 import Box from '@mui/joy/Box';
-import Chip from '@mui/joy/Chip';
 import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
 import Tab, { tabClasses } from '@mui/joy/Tab';
-import TabPanel from '@mui/joy/TabPanel';
-import Typography from '@mui/joy/Typography';
 
 export default function NavBar(props: {tabs: string[], onTabChange: (tabIndex: number) => void}) {
   const [index, setIndex] = React.useState(0);
@@ -59,7 +58,7 @@ export default function NavBar(props: {tabs: string[], onTabChange: (tabIndex: n
             },
           }}
         >
-        {props.tabs.map((tab, index) => (<Tab>{tab}</Tab>))}
+        {props.tabs.map((tab, index) => (<Tab key={index}>{tab}</Tab>))}
         </TabList>
         <Box
           sx={(theme) => ({

@@ -1,12 +1,10 @@
 import { useState } from 'react'
-import alarmedState from './assets/alarmed.png'
-import concernedState from './assets/concerned.png'
-import calm from './assets/calm.png'
 import AspectRatio from '@mui/joy/AspectRatio';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';
 import Typography from '@mui/joy/Typography';
+import Image from 'next/image'
 
 
 function DialogBox(props: {
@@ -40,7 +38,14 @@ function DialogBox(props: {
         }}
       >
         <AspectRatio ratio="1" objectFit="contain" variant="plain">
-          <img alt="" src={getPictureFromStatus(props.status)}/>
+          <Image
+            className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70]"
+            src={getPictureFromStatus(props.status)}
+            alt="assistant mascot image"
+            height={200}
+            width={200}
+            priority
+          />
         </AspectRatio>
       </CardOverflow>
       <CardContent sx={{ gap: 1.5, minWidth: 200 }}>
@@ -60,13 +65,13 @@ function DialogBox(props: {
 function getPictureFromStatus(status: "alert" | "warning" | "ok" | "error"){
     switch(status){
         case "alert":
-            return alarmedState
+            return "/alarmed.png"
         case "warning":
-            return concernedState
+            return "/concerned.png"
         case "ok":
-            return calm
+            return "/calm.png"
         case "error":
-            return calm
+            return "/calm.png"
     }
 }
 

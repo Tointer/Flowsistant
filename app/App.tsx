@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import AskForm from './AskForm.tsx'
+import AskForm from './AskForm'
 import {CssVarsProvider} from '@mui/joy/styles';
 import './App.css'
-import NavBar from './NavBar.tsx'
+import NavBar from './NavBar'
  
 
 function App() {

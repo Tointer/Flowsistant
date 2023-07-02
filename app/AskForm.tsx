@@ -20,6 +20,7 @@ function AskForm(props: {}) {
             },
             body: JSON.stringify({ tx: inputContent })
         }).then(data => {
+            console.log(JSON.stringify(data));
             data.json().then(response => {
                 console.log(response);
                 setHelperMessage(response.answer)

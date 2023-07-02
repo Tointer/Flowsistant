@@ -1,6 +1,6 @@
-import txForge from './txForge.js';
-import importAnalyser from './importAnalyser.js';
-import promter from './promter.js';
+import txForge from './txForge';
+import importAnalyser from './importAnalyser';
+import promter from './promter';
 
 enum ResponseOverride {
     None,
