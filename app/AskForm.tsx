@@ -2,7 +2,7 @@ import { useState } from 'react'
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import DialogBox from './DialogBox';
-import Button from '@mui/joy/Button';
+import { Button, Loading  } from '@nextui-org/react';
 
 
 function AskForm(props: {}) {
@@ -37,7 +37,7 @@ function AskForm(props: {}) {
     }
 
     return (
-        <div className='flex flex-col items-center gap-4'>
+        <div className='flex flex-col items-center gap-4 mb-10'>
         <CodeMirror
             className="text-left min-w-100"
             minWidth='500px'
@@ -51,7 +51,13 @@ function AskForm(props: {}) {
         {resultPresented ? 
             <DialogBox message={helperMessage} status="ok" /> 
             : 
-            <Button onClick={onAsk} loading={waitingResult}>Ask</Button>
+            waitingResult?
+                <Button disabled auto bordered color="success" css={{ px: "$13" }}>
+                    <Loading type="points" color="currentColor" size="sm" />
+                </Button>
+                :
+                <Button shadow color="gradient" auto onClick={onAsk}>Ask</Button>
+            
         }
         
         </div>
