@@ -1,5 +1,7 @@
 import './globals.css'
+import NavBar from './NavBar';
 import { Public_Sans } from 'next/font/google'
+import { CssBaseline } from '@nextui-org/react';
 
 const publicSans = Public_Sans({ subsets: ['latin'] })
 
@@ -15,7 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={publicSans.className}>{children}</body>
+      <body className={publicSans.className}>
+        <NavBar />
+        {children}
+      </body>
     </html>
   )
 }

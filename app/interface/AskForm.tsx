@@ -1,8 +1,11 @@
+"use client"
+
 import { useState } from 'react'
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import DialogBox from './DialogBox';
-import { Button, Loading  } from '@nextui-org/react';
+import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
 
 
 function AskForm(props: {}) {
@@ -52,11 +55,12 @@ function AskForm(props: {}) {
             <DialogBox message={helperMessage} status="ok" /> 
             : 
             waitingResult?
-                <Button disabled auto bordered color="success" css={{ px: "$13" }}>
-                    <Loading type="points" color="currentColor" size="sm" />
+                <Button disabled>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Thinking
                 </Button>
                 :
-                <Button shadow color="gradient" auto onClick={onAsk}>Ask</Button>
+                <Button className="bg-teal-800 text-white" onClick={onAsk}>Ask</Button>
             
         }
         

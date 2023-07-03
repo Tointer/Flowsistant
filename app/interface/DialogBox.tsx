@@ -6,7 +6,7 @@ function DialogBox(props: {
 }) 
 {
   return ( 
-    <div className="flex max-w-screen-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-zinc-900 dark:border-gray-700">
+    <div className="flex max-w-screen-sm bg-zinc-900 border rounded-lg shadow  border-gray-700">
       <Image
         className="m-4 object-contain dark:drop-shadow-[0_0_0.3rem_#ffffff70]"
         src={getPictureFromStatus(props.status)}
@@ -15,9 +15,9 @@ function DialogBox(props: {
         width={100}
         priority
       />
-      <div className="block p-3 text-left bg-white border border-gray-200 rounded-lg shadow dark:bg-zinc-700 dark:border-gray-700">
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{getTitleFromStatus(props.status)}</h5>
-        <p className="font-normal text-gray-700 dark:text-gray-400">{props.message}</p>
+      <div className="block p-3 text-left bg-teal-800 border rounded-lg shadow  border-teal-950">
+        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-200">{getTitleFromStatus(props.status)}</h5>
+        <p className="font-normal text-gray-200">{props.message}</p>
       </div>
     </div>
   )
