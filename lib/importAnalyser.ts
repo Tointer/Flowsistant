@@ -13,7 +13,7 @@ function checkImports(transaction : string): ImportCheckResult{
     const matched = transaction.matchAll(importRegex);
     const arrays = Array.from(matched).map(x => [x[1], x[2]]);
 
-    const mainnetDict = Object.entries(mainnet);
+    const mainnetDict = Object.entries(mainnet.verified);
 
     for (const [contractName, contractAddress] of arrays) {
         if(mainnetDict.find(x => x[0] === contractName && x[1] !== contractAddress) !== undefined){
