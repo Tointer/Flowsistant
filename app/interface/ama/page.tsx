@@ -6,6 +6,7 @@ import DialogBox from '../DialogBox';
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
+import { ResponseCategory } from '../../../lib/types';
 
 export default function AMA() {
   const [resultPresented, setResultPresented] = useState(false)
@@ -57,7 +58,7 @@ export default function AMA() {
             onChange={onCodeChange}
         /> */}
         {resultPresented ? 
-            <DialogBox message={helperMessage} status="ok" /> 
+            <DialogBox message={helperMessage} cat={ResponseCategory.regular} /> 
             : 
             waitingResult?
                 <Button disabled>

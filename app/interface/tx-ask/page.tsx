@@ -5,12 +5,14 @@ import { javascript } from '@codemirror/lang-javascript';
 import DialogBox from '../DialogBox';
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
+import { ResponseCategory } from "../../../lib/types";
 
 export default function TXAsk() {
   const [resultPresented, setResultPresented] = useState(false)
   const [waitingResult, setWaitingResult] = useState(false)
   const [inputContent, setInputContent] = useState("")
   const [helperMessage, setHelperMessage] = useState("")
+  const [responseCategory, setResponseCategory] = useState<ResponseCategory>(ResponseCategory.none)
 
   function onAsk(){
     setWaitingResult(true);
@@ -27,6 +29,7 @@ export default function TXAsk() {
             setHelperMessage(response.answer)
             setResultPresented(true);
             setWaitingResult(false);
+            setResponseCategory(response.cat)
         });
     })
   }
@@ -38,7 +41,7 @@ export default function TXAsk() {
 
   return (
       <div className='mt-10 flex flex-col text-center'>
-        <h1 className="text-3xl font-bold">Transaction analyzer</h1>
+        <h1 className="text-3xl font-bold">Paste transaction here:</h1>
         <div className='flex flex-col items-center gap-4 mb-10'>
         <CodeMirror
             className="text-left max-w-2xl w-full'"
@@ -51,7 +54,7 @@ export default function TXAsk() {
             onChange={onCodeChange}
         />
         {resultPresented ? 
-            <DialogBox message={helperMessage} status="ok" /> 
+            <DialogBox message={helperMessage} cat={responseCategory} /> 
             : 
             waitingResult?
                 <Button disabled>

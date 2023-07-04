@@ -1,19 +1,19 @@
 import { NextResponse } from "next/server";
 import { txAnalyse } from "@/lib/txAnalyser";
+import { ResponseCategory } from "@/lib/types";
 
 export async function POST(req: Request){
     const { tx } = await req.json();
-    let result = { answer: "No tx", status: "error" };
+    let result = { answer: "No tx", cat: ResponseCategory.error };
 
     //debug wait 2 sec
     //await new Promise(resolve => setTimeout(resolve, 2000));
     
     if (tx !== ""){
         try{
-            const answer = await txAnalyse(tx);
-            result = { answer, status: "ok" };
+            result = await txAnalyse(tx);
         } catch (err){
-            result = { answer: JSON.stringify(err), status: "error" };
+            result = { answer: JSON.stringify(err), cat: ResponseCategory.error };
         }
     }
 
