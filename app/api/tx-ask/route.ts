@@ -3,7 +3,7 @@ import { txAnalyse } from "@/lib/txAnalyser";
 import { ResponseCategory } from "@/lib/types";
 
 export async function POST(req: Request){
-    const { tx } = await req.json();
+    const { tx, userAddress } = await req.json();
     let result = { answer: "No tx", cat: ResponseCategory.error };
 
     //debug wait 2 sec
@@ -11,7 +11,7 @@ export async function POST(req: Request){
     
     if (tx !== ""){
         try{
-            result = await txAnalyse(tx);
+            result = await txAnalyse(tx, {userAddress});
         } catch (err){
             result = { answer: JSON.stringify(err), cat: ResponseCategory.error };
         }

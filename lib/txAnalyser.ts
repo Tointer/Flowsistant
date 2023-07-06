@@ -10,7 +10,11 @@ import { ResponseCategory } from './types';
 //     Scam            = 1 << 2,
 // }
 
-export async function txAnalyse(tx : string): Promise<{answer: string, cat: ResponseCategory}>{
+interface UserContext{
+    userAddress: string;
+}
+
+export async function txAnalyse(tx : string, userContext: UserContext): Promise<{answer: string, cat: ResponseCategory}>{
 
     let cat = ResponseCategory.none;
     let answer = "";
@@ -28,7 +32,7 @@ export async function txAnalyse(tx : string): Promise<{answer: string, cat: Resp
         This can be a sign of scam, or some new version of contract, please double check before proceeding`
     }
     else{
-        answer = await promter.promtTxAnalyse(tx);
+        answer = await promter.promtTxAnalyse(tx, userContext);
         cat = ResponseCategory.regular;
     }
     

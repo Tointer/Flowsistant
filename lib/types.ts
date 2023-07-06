@@ -5,3 +5,7 @@ export enum ResponseCategory {
     alarm,
     error
 }
+
+export interface UserContext{
+    userAddress: string;
+}

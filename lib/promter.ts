@@ -1,8 +1,9 @@
 import { ChatGPTAPI } from 'chatgpt'
 import {getEncoding} from "js-tiktoken";
+import { UserContext } from './types';
 
 
-async function promtTxAnalyse(transaction : string){
+async function promtTxAnalyse(transaction : string, userContext: UserContext){
     
     if (process.env.OPENAI_API_KEY === undefined) {
         throw new Error('OPENAI_API_KEY is not defined')
