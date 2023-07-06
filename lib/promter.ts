@@ -22,11 +22,12 @@ async function promtTxAnalyse(transaction : string, userContext: UserContext){
     2. You should not give any detail about how this transaction working internally.
     3. You should always tell what kind of resources user will send and to whom.
     4. You should always tell what kind of resources user will receive and from whom.
-    5. If transaction is suspicious you should mention it. If it is not suspicious you should not mention anything.
-    6. Signer is always user, and you should adress user directly as "you". 
-    7. User actions should be addressed in the future tense.
-    8. Your answers should be as short as possible.
-    9. If resource is token, you should call it token.
+    5. Signer AuthAccount is always user, and you should adress user directly as "you". 
+    6. User actions should be addressed in the future tense.
+    7. Your answers should be as short as possible.
+    8. If resource is fungible token, you should call it token.
+    9. If resource is non fungible token, you should call it NFT.
+    10. user address is ${userContext.userAddress}, you should adress it as "your address"
     `
     const transactionBlock = `
     Here is the transaction, written in Cadence language: ${transaction}}`
