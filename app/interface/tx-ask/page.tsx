@@ -6,6 +6,7 @@ import DialogBox from '../DialogBox';
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { ResponseCategory } from "../../../lib/types";
+import authenticator from "../../../lib/authenticator";
 
 export default function TXAsk() {
   const [resultPresented, setResultPresented] = useState(false)
@@ -14,7 +15,12 @@ export default function TXAsk() {
   const [helperMessage, setHelperMessage] = useState("")
   const [responseCategory, setResponseCategory] = useState<ResponseCategory>(ResponseCategory.none)
 
-  function onAsk(){
+  async function onAsk(){
+    const user = await authenticator.auth();
+    if (!user.addr) {
+        return;
+    }
+
     setWaitingResult(true);
     fetch('/api/tx-ask', {
         method: 'POST',
