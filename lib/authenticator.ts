@@ -7,19 +7,15 @@ fcl.config({
 })
 
 async function auth(): Promise<CurrentUser> {
-    console.log("Auth start")
     let currentUser = await fcl.currentUser.snapshot()
+
     if(currentUser.addr){
-        console.log("User exists: " + currentUser.addr)
         return currentUser;
     }
 
-    console.log("User does not exist, authenticating")
     await fcl.authenticate();
     
-
     currentUser = await fcl.currentUser.snapshot();
-
     console.log("User auth with: " + currentUser.addr)
 
     return currentUser;
