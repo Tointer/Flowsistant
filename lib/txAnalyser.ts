@@ -2,17 +2,13 @@ import txForge from './txForge';
 import importAnalyser from './importAnalyser';
 import scamChecker from './scamChecker';
 import promter from './promter';
-import { ResponseCategory } from './types';
+import { ResponseCategory, UserContext } from './types';
 
 // enum ResponseOverride {
 //     None,
 //     WrongImports    = 1 << 1,
 //     Scam            = 1 << 2,
 // }
-
-interface UserContext{
-    userAddress: string;
-}
 
 export async function txAnalyse(tx : string, userContext: UserContext): Promise<{answer: string, cat: ResponseCategory}>{
 
