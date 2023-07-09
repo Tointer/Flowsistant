@@ -27,7 +27,7 @@ export default function TXAsk() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ tx: inputContent })
+        body: JSON.stringify({ tx: inputContent, userAddress: user.addr })
     }).then(data => {
         console.log(JSON.stringify(data));
         data.json().then(response => {
