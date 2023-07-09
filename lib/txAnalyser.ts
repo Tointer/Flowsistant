@@ -27,6 +27,21 @@ export async function txAnalyse(tx : string, userContext: UserContext): Promise<
         answer = `Your transaction are interacting with contract that have name of some popular contract, but with different address.
         This can be a sign of scam, or some new version of contract, please double check before proceeding`
     }
+    else if(tx.includes("#allowAccountLinking")){
+        const linkAnswer = await promter.promtLinkingAccounts(tx);
+        if(linkAnswer.parent === userContext.userAddress){
+            cat = ResponseCategory.regular;
+            answer = `You are linking account ${linkAnswer.child} to your address ${userContext.userAddress}. This will give you full custody of child account.`;
+        }
+        else if(linkAnswer.child === userContext.userAddress){
+            cat = ResponseCategory.warning;
+            answer = `You are linking your account to ${linkAnswer.parent}. You will lose control of your account after this transaction. Are you sure you want to proceed?`;
+        }
+        else{
+            cat = ResponseCategory.warning;
+            answer = `Seems like this transaction involving account linking, but I can't figure out if it's safe. Please be cautios, as linking your account to someone else's will give them full control over your account.`;
+        }
+    }
     else{
         answer = await promter.promtTxAnalyse(tx, userContext);
         cat = ResponseCategory.regular;
