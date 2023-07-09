@@ -13,6 +13,7 @@ export default function TXAsk() {
   const [waitingResult, setWaitingResult] = useState(false)
   const [inputContent, setInputContent] = useState("")
   const [helperMessage, setHelperMessage] = useState("")
+  const [helperTitle, setHelperTitle] = useState("")
   const [responseCategory, setResponseCategory] = useState<ResponseCategory>(ResponseCategory.none)
 
   async function onAsk(){
@@ -32,10 +33,11 @@ export default function TXAsk() {
         console.log(JSON.stringify(data));
         data.json().then(response => {
             console.log(response);
-            setHelperMessage(response.answer)
+            setHelperMessage(response.answer);
             setResultPresented(true);
             setWaitingResult(false);
-            setResponseCategory(response.cat)
+            setHelperTitle(response.title);
+            setResponseCategory(response.cat);
         });
     })
   }
@@ -60,7 +62,7 @@ export default function TXAsk() {
             onChange={onCodeChange}
         />
         {resultPresented ? 
-            <DialogBox message={helperMessage} cat={responseCategory} /> 
+            <DialogBox title={helperTitle} message={helperMessage} cat={responseCategory} /> 
             : 
             waitingResult?
                 <Button disabled>

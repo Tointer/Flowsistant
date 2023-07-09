@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { ResponseCategory } from "../../lib/types";
 
 function DialogBox(props: {
+    title: string
     message: string, 
     cat: ResponseCategory
 }) 
@@ -17,7 +18,7 @@ function DialogBox(props: {
         priority
       />
       <div className={`block p-3 text-left bg-${getBgCol(props.cat)} border rounded-lg shadow  border-${getBorderCol(props.cat)}`}>
-        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-200">{getTitleFromStatus(props.cat)}</h5>
+        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-200">{props.title}</h5>
         <p className="font-normal text-gray-200">{props.message}</p>
       </div>
     </div>
@@ -66,21 +67,6 @@ function getPictureFromStatus(status: ResponseCategory){
             return "/calm.png"
         case ResponseCategory.none:
             return "/calm.png"
-    }
-}
-
-function getTitleFromStatus(status: ResponseCategory){
-    switch(status){
-        case ResponseCategory.alarm:
-            return "Scam alert!"
-        case ResponseCategory.warning:
-            return "Are you sure?"
-        case ResponseCategory.regular:
-            return "Hello there!"
-        case ResponseCategory.error:
-            return "Something went wrong"
-        case ResponseCategory.none:
-            return "Something went wrong"
     }
 }
 
