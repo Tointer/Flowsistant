@@ -47,18 +47,8 @@ export default function AMA() {
             placeholder="Type here." 
             onChange={(e) => onCodeChange(e.target.value)}
         />
-        {/* <CodeMirror
-            className="text-left min-w-100"
-            minWidth='500px'
-            minHeight='100px'
-            value={codeExample}
-            theme='dark'
-            lang="javascript"
-            extensions={[javascript({ jsx: true })]}
-            onChange={onCodeChange}
-        /> */}
         {resultPresented ? 
-            <DialogBox message={helperMessage} cat={ResponseCategory.regular} /> 
+            <DialogBox title={"Hello!"} message={helperMessage} cat={ResponseCategory.regular} /> 
             : 
             waitingResult?
                 <Button disabled>
