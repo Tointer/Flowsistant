@@ -3,18 +3,6 @@ import {getEncoding} from "js-tiktoken";
 import { UserContext } from './types';
 
 async function promtTxAnalyse(transaction : string, userContext: UserContext): Promise<string>{
-    
-    if (process.env.OPENAI_API_KEY === undefined) {
-        throw new Error('OPENAI_API_KEY is not defined')
-    }
-    
-    const encoder = getEncoding("gpt2");
-
-    const configuration = new Configuration({
-        apiKey: process.env.OPENAI_API_KEY as string,
-    });
-
-    const api = new OpenAIApi(configuration);
 
     const rulesBlock = `
     You are digital advisor for Flow blockchain. Your task is help user to understand what kind of transaction he is sending. 
@@ -33,38 +21,15 @@ async function promtTxAnalyse(transaction : string, userContext: UserContext): P
     const transactionBlock = `
     Here is the transaction, written in Cadence language: ${transaction}}`
 
-    const inputSum = transactionBlock;
-
-    console.log(`token count: ${encoder.encode(inputSum).length}`)
     console.log(`user address: ${userContext.userAddress}`)
 
-    const result = await api.createChatCompletion({
-        model: "gpt-3.5-turbo",
-        messages: [
-            {role: "system", content: rulesBlock},
-            {role: "user", content: transactionBlock}],
-    });
-    //const result = "Mock GPT-3 response";
+    const result = await promt(rulesBlock, transactionBlock)
 
-    return result.data.choices[0].message?.content as string;
+    return result;
 
 }
 
 async function promtLinkingAccounts(transaction : string): Promise<{parent: string, child: string}>{
-    
-    if (process.env.OPENAI_API_KEY === undefined) {
-        throw new Error('OPENAI_API_KEY is not defined')
-    }
-    
-    const encoder = getEncoding("gpt2");
-    
-    const configuration = new Configuration({
-        apiKey: process.env.OPENAI_API_KEY as string,
-    });
-
-    const api = new OpenAIApi(configuration);
-
-
     const rulesBlock = `
     You are digital advisor for Flow blockchain. You will be given transactions that includes acount linking. 
     Account linking is onboarding process in which user gettting custody over his NFTs in child account. Typically, child account is created by some game or app that user is using.
@@ -76,16 +41,7 @@ async function promtLinkingAccounts(transaction : string): Promise<{parent: stri
     const transactionBlock = `
     Here is the transaction, written in Cadence language: ${transaction}}`
 
-    const finalInput = rulesBlock + transactionBlock;
-
-    console.log(`token count: ${encoder.encode(finalInput).length}`)
-
-    const response = await api.createCompletion({
-        model: "gpt-4",
-        prompt: finalInput,
-    });
-    const answer = response.data.choices[0].text as string;
-    //const result = "Mock GPT-3 response";
+    const answer = await promt(rulesBlock, transactionBlock)
 
     let result : {parent: string, child: string};
     try {
@@ -97,6 +53,33 @@ async function promtLinkingAccounts(transaction : string): Promise<{parent: stri
     }
     return result;
 
+}
+
+async function promt(systemMsg: string, userMsg: string): Promise<string>{
+    
+    if (process.env.OPENAI_API_KEY === undefined) {
+        throw new Error('OPENAI_API_KEY is not defined')
+    }
+     
+    const configuration = new Configuration({
+        apiKey: process.env.OPENAI_API_KEY as string,
+    });
+
+    const api = new OpenAIApi(configuration);
+
+    const inputSum = systemMsg + userMsg;
+    const encoder = getEncoding("gpt2");
+    console.log(`token count: ${encoder.encode(inputSum).length}`)
+
+    const result = await api.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [
+            {role: "system", content: systemMsg},
+            {role: "user", content: userMsg}],
+    });
+
+    //const result = "Mock GPT-3 response";
+    return result.data.choices[0].message?.content as string;
 }
 
 
