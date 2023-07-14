@@ -1,19 +1,20 @@
-import { ChatGPTAPI } from 'chatgpt'
+import { Configuration, OpenAIApi } from 'openai'
 import {getEncoding} from "js-tiktoken";
 import { UserContext } from './types';
 
-
-async function promtTxAnalyse(transaction : string, userContext: UserContext){
+async function promtTxAnalyse(transaction : string, userContext: UserContext): Promise<string>{
     
     if (process.env.OPENAI_API_KEY === undefined) {
         throw new Error('OPENAI_API_KEY is not defined')
     }
     
     const encoder = getEncoding("gpt2");
-    
-    const api = new ChatGPTAPI({
+
+    const configuration = new Configuration({
         apiKey: process.env.OPENAI_API_KEY as string,
-    })
+    });
+
+    const api = new OpenAIApi(configuration);
 
     const rulesBlock = `
     You are digital advisor for Flow blockchain. Your task is help user to understand what kind of transaction he is sending. 
@@ -28,18 +29,24 @@ async function promtTxAnalyse(transaction : string, userContext: UserContext){
     8. If transaction is sending or receiving token resources, you should always mention it.
     9. You should NOT mention arguments of the transaction if it's metadata (like names, descriptions, urls, etc.)
     `
+
     const transactionBlock = `
     Here is the transaction, written in Cadence language: ${transaction}}`
 
-    const finalInput = rulesBlock + transactionBlock;
+    const inputSum = transactionBlock;
 
-    console.log(`token count: ${encoder.encode(finalInput).length}`)
-    //console.log(finalInput);
+    console.log(`token count: ${encoder.encode(inputSum).length}`)
+    console.log(`user address: ${userContext.userAddress}`)
 
-    //const result = (await api.sendMessage(finalInput)).text
-    const result = "Mock GPT-3 response";
+    const result = await api.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [
+            {role: "system", content: rulesBlock},
+            {role: "user", content: transactionBlock}],
+    });
+    //const result = "Mock GPT-3 response";
 
-    return result;
+    return result.data.choices[0].message?.content as string;
 
 }
 
@@ -51,9 +58,11 @@ async function promtLinkingAccounts(transaction : string): Promise<{parent: stri
     
     const encoder = getEncoding("gpt2");
     
-    const api = new ChatGPTAPI({
+    const configuration = new Configuration({
         apiKey: process.env.OPENAI_API_KEY as string,
-    })
+    });
+
+    const api = new OpenAIApi(configuration);
 
 
     const rulesBlock = `
@@ -71,7 +80,11 @@ async function promtLinkingAccounts(transaction : string): Promise<{parent: stri
 
     console.log(`token count: ${encoder.encode(finalInput).length}`)
 
-    const answer = (await api.sendMessage(finalInput)).text
+    const response = await api.createCompletion({
+        model: "gpt-4",
+        prompt: finalInput,
+    });
+    const answer = response.data.choices[0].text as string;
     //const result = "Mock GPT-3 response";
 
     let result : {parent: string, child: string};
