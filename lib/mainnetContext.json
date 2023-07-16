@@ -6,7 +6,5 @@
         "DapperUtilityCoin": "0xead892083b3e2c6c",
         "TopShot": "0x0b2a3299cc857e29"
     },
-    "scam": {
-        
-    }
+    "scam": ["0x0b2a3299cc857e28"]
 }
