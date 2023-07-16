@@ -13,9 +13,10 @@ async function promtTxAnalyse(transaction : string, userContext: UserContext): P
     4. User actions should be addressed in the future tense.
     5. Your answers should be as short as possible.
     6. If resource is fungible token, you should call it token.
-    7. If resource is non fungible token, you should call it NFT.
+    7. If resource is non fungible token, you should call it NFT, and always mention its ID.
     8. If transaction is sending or receiving token resources, you should always mention it.
-    9. You should NOT mention arguments of the transaction if it's metadata (like names, descriptions, urls, etc.)
+    9. You should mention all addresses of the senders and recipients that are involved in the transaction.
+    10. You should NOT mention arguments of the transaction if it's metadata (like names, descriptions, urls, etc.)
     `
 
     const transactionBlock = `
