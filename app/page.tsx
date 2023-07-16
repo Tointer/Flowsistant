@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import DialogBox from './interface/DialogBox'
 import { ResponseCategory } from "../lib/types";
 import Blob from "./animatedBlob"
@@ -10,14 +9,14 @@ export default function Home() {
         <h1 className='text-4xl font-bold'>Your own AI-powered Flow assistant</h1>
         <div className="m-8">
           <p className='mt-4 text-xl'>Flowsistant is your handy tool in helping users feel more comfortable with confusing onchain transactions.</p>
-          <p className='mt-4 text-xl'>Simply feed transaction to flowsistant API endpoint </p>
+          <p className='mt-2 text-xl'>Simply feed transaction and user address to flowsistant API endpoint</p>
         </div>
         <Blob></Blob>
         <section >
           <div className="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
               <div className="space-y-8">
                 <DialogBox  title="Hello there!" message="You are sending an NFT with ID 55 from your address to the recepient at address 0x37139ff112e35a07" cat={ResponseCategory.regular}/>
-                <DialogBox title="Going full permissionless!" message="You are linking account 0x26139ff112e35a18 with your account. This will give you full custody of it's assets" cat={ResponseCategory.regular}/>
+                <DialogBox title="Going full permissionless!" message="You are linking account 0x26139ff112e35a18 with your account. This will give you full custody of its assets" cat={ResponseCategory.regular}/>
               </div>
               <div className="mt-4 md:mt-0">
                   <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-white">It will explain transaction in plain english</h2>
@@ -52,6 +51,9 @@ export default function Home() {
               </div>
           </div>
         </section>
+        <h1 className='text-4xl font-bold m-8'>
+          Want to test how it work? Here is <a href="/interface/tx-ask" className='text-blue-600  hover:underline'>web interface demonstration</a>
+        </h1>
       </div>
     </>
   )
