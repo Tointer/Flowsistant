@@ -52,10 +52,10 @@ export default function TXAsk() {
         <h1 className="text-3xl font-bold">Paste transaction here:</h1>
         <div className='flex flex-col items-center gap-4 mb-10'>
         <CodeMirror
-            className="text-left max-w-2xl w-full'"
+            className="text-left mt-4 max-w-2xl w-full'"
             minWidth='600px'
             minHeight='100px'
-            value={codeExample}
+            value={""}
             theme='dark'
             lang="javascript"
             extensions={[javascript({ jsx: true })]}
