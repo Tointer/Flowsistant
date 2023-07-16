@@ -47,7 +47,7 @@ export default function Home() {
               </div>
               <div className="mt-4 md:mt-0">
                   <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-white">It will protect</h2>
-                  <p className="mb-6 font-light  md:text-lg text-gray-400">We don't need multiple users to interact with dangerous website. If just one will report it, we can mark it and prevent users from losing funds</p>
+                  <p className="mb-6 font-light  md:text-lg text-gray-400">We dont need multiple users to interact with dangerous website. If just one will report it, we can mark it and prevent users from losing funds</p>
               </div>
           </div>
         </section>
