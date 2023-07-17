@@ -26,18 +26,6 @@ export async function POST(req: Request){
 }
 
 async function handleAmaRequest(question: string, userAddress: string) : Promise<{title: string, answer: string, cat: ResponseCategory}>{
-    const url = 'https://api.kapa.ai/query/v1?query=' + new URLSearchParams(question).toString();
-    const kapaAnswer = await fetch(url, {
-        method: 'GET',
-        headers: {
-            "X-API-TOKEN": process.env.KAPA_API_KEY as string
-        }
-    })
 
-    console.log(url);
-    console.log(question);
-    //console.log(kapaAnswer);
-    const result = (await kapaAnswer.json()).answer;
-
-    return { title: "Kapa AI", answer: result, cat: ResponseCategory.regular };
+    return { title: "Kapa AI", answer: "Not implemented yet", cat: ResponseCategory.regular };
 }

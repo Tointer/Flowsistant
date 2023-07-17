@@ -1,73 +1,45 @@
-"use client"
-import { useState } from 'react'
-import CodeMirror from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
-import DialogBox from '../DialogBox';
-import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
-import { ResponseCategory } from '../../../lib/types';
-import authenticator from "../../../lib/authenticator";
+import Image from 'next/image'
 
 export default function AMA() {
-  const [resultPresented, setResultPresented] = useState(false)
-  const [waitingResult, setWaitingResult] = useState(false)
-  const [inputContent, setInputContent] = useState("")
-  const [helperMessage, setHelperMessage] = useState("")
-  const [helperTitle, setHelperTitle] = useState("")
-  const [responseCategory, setResponseCategory] = useState<ResponseCategory>(ResponseCategory.none)
-
-  async function onAsk(){
-    const user = await authenticator.auth();
-    if (!user.addr) {
-        return;
-    }
-
-    setWaitingResult(true);
-    fetch('/api/ama-ask', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ question: inputContent, userAddress: user.addr })
-    }).then(data => {
-        console.log(JSON.stringify(data));
-        data.json().then(response => {
-            console.log(response);
-            setHelperMessage(response.answer);
-            setResultPresented(true);
-            setWaitingResult(false);
-            setHelperTitle(response.title);
-            setResponseCategory(response.cat);
-        });
-    })
-  }
-
-  function onCodeChange(value: string) {
-      setResultPresented(false);
-      setInputContent(value);
-  }
 
   return (
       <div className='mt-10 flex flex-col text-center gap-4'>
-        <h1 className="text-3xl font-bold">Ask me anything about Flow!</h1>
+        <h1 className="text-3xl font-bold">Ask me anything about Flow, your account or transactions</h1>
         <div className='flex flex-col items-center gap-4 mb-10'>
-        <Textarea 
-            className='max-w-2xl w-full'
-            placeholder="Type here." 
-            onChange={(e) => onCodeChange(e.target.value)}
-        />
-        {resultPresented ? 
-            <DialogBox title={helperTitle} message={helperMessage} cat={responseCategory} /> 
-            : 
-            waitingResult?
-                <Button disabled>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Thinking
-                </Button>
-                :
-                <Button className="bg-teal-800 text-white" onClick={onAsk}>Ask</Button>
-        }
+            <Textarea 
+                className='max-w-2xl w-full'
+                placeholder="Coming soon!" 
+                disabled={true}
+            />
+            <div className="flex max-w-screen-sm bg-teal-800  border rounded-lg shadow mt-36 border-teal-950">
+                <Image
+                    className="m-4 object-contain dark:drop-shadow-[0_0_0.3rem_#ffffff70]"
+                    src="/user.png"
+                    alt="assistant mascot image"
+                    height={100}
+                    width={100}
+                    priority
+                />
+                <div className={`block p-3 text-left bg-zinc-900 border rounded-lg shadow   border-gray-700`}>
+                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-200"></h5>
+                    <p className="font-normal text-gray-200">How many USDC did I send to address 0xc1e4f4f4c4257510 in the last 3 months?</p>
+                </div>
+            </div>
+            <div className="flex max-w-screen-sm bg-zinc-900 border rounded-lg shadow  border-gray-700">
+                <Image
+                    className="m-4 object-contain dark:drop-shadow-[0_0_0.3rem_#ffffff70]"
+                    src="/calm.png"
+                    alt="assistant mascot image"
+                    height={100}
+                    width={100}
+                    priority
+                />
+                <div className={`block p-3 text-left bg-teal-800 border rounded-lg shadow  border-teal-950`}>
+                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-200">You sent 750 USDC</h5>
+                    <p className="font-normal text-gray-200">300 in May, 250 in June, and 200 in July</p>
+                </div>
+            </div>
         </div>
       </div>
   )
