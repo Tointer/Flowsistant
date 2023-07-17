@@ -1,6 +1,6 @@
 import txForge from './txForge';
 import importAnalyser from './importAnalyser';
-import scamChecker from './scamChecker';
+import scamChecker from './blacklistChecker';
 import promter from './promter';
 import { ResponseCategory, UserContext } from './types';
 
@@ -17,12 +17,17 @@ export async function txAnalyse(tx : string, userContext: UserContext): Promise<
     let title = ""
 
     const wrongInputs = importAnalyser.checkImports(tx);
-    const scamAddresses = scamChecker.checkScam(tx);
+    const {scams, compromised} = scamChecker.checkBlacklist(tx);
 
-    if(scamAddresses.length > 0){
+    if(scams.length > 0){
         cat = ResponseCategory.alarm;
         title = "Scam alert!"
-        answer = `Your transaction is interacting with scam address ${scamAddresses[0]}, do NOT proceed!`;
+        answer = `Your transaction is interacting with scam address ${scams[0]}, do NOT proceed!`;
+    }
+    else if(compromised.length > 0){
+        cat = ResponseCategory.alarm
+        title = "Compromised contract!"
+        answer = `You are interacting with compromised contract ${compromised[0]}, do NOT proceed!`
     }
     else if(wrongInputs.wrong_contracts.length > 0){
         cat = ResponseCategory.warning
