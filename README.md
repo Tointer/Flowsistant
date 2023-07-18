@@ -1,34 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is [Flowsistant](https://devfolio.co/projects/flowsistant-007a) API with web interface made with Next.js and GPT-3.5 Turbo.
 
-## Getting Started
 
-First, run the development server:
+## Run dev
+
+To run development server, you need to have OpenAI API key in `.env` file like this:
+
+`OPENAI_API_KEY=*your API key*`
+
+then use
+
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Test
+Paste any transaction on the `/tx-ask` page to see API in action
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Use `0x0b2a3299cc857e01` address somewhere in the transaction to trigger scam alarm
 
-## Learn More
+Use `0x0b2a3299cc857e00` address somewhere in the transaction to trigger compromised contract alarm
 
-To learn more about Next.js, take a look at the following resources:
+Use `TopShot` import with any random address to trigger import mismatch warning
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To test linking hints, you can use transaction from `lib/txForge.ts`, switch AuthAccounts of children and parent to get hint or warning about losing an account
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
